@@ -53,7 +53,6 @@ export default function ContactSection() {
   });
 
   const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [toastSuccess, setToastSuccess] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
 
@@ -99,20 +98,18 @@ export default function ContactSection() {
     e.preventDefault();
     if (!validateForm()) return;
 
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setToastSuccess(true);
-      setFormData({
-        name: '',
-        email: '',
-        projectType: projectTypes[0],
-        message: '',
-      });
-      setTimeout(() => {
-        setToastSuccess(false);
-      }, 6000);
-    }, 650);
+    const subject = `Project inquiry: ${formData.projectType}`;
+    const body = [
+      `Name: ${formData.name.trim()}`,
+      `Email: ${formData.email.trim()}`,
+      `Project type: ${formData.projectType}`,
+      '',
+      formData.message.trim(),
+    ].join('\n');
+
+    window.location.href = `mailto:${directEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setToastSuccess(true);
+    setTimeout(() => setToastSuccess(false), 6000);
   };
 
   return (
@@ -144,11 +141,11 @@ export default function ContactSection() {
               </div>
               <div className="flex-1">
                 <h4 className="font-heading text-sm font-bold text-white">
-                  Message Received — Thank You!
+                  Your Email App Should Open
                 </h4>
                 <p className="mt-1 text-xs text-zinc-300 leading-relaxed">
-                  Juyel Apon will review your project brief and reply within 12–24
-                  hours.
+                  Your project brief is ready to review and send. This website
+                  does not send messages directly.
                 </p>
               </div>
               <button
@@ -491,21 +488,18 @@ export default function ContactSection() {
                 {/* Submit CTA & Inline Status */}
                 <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <p className="font-mono text-xs text-zinc-400">
-                    <span className="text-[#10B981]">●</span> Encrypted &amp;
-                    direct to Juyel&apos;s inbox
+                    <span className="text-[#10B981]">●</span> Opens your email
+                    app with a prepared draft
                   </p>
 
                   <motion.button
                     type="submit"
-                    disabled={isSubmitting}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     className="relative inline-flex items-center justify-center gap-2.5 rounded-xl bg-[#6366F1] hover:bg-indigo-500 disabled:opacity-60 px-7 py-3.5 text-sm font-semibold text-white shadow-[0_0_28px_-4px_rgba(99,102,241,0.65)] hover:shadow-[0_0_36px_2px_rgba(99,102,241,0.85)] transition-all duration-300 border border-indigo-400/40"
                   >
                     <Send className="h-4 w-4" />
-                    <span>
-                      {isSubmitting ? 'Sending Brief...' : 'Send Message'}
-                    </span>
+                    <span>Open Email App</span>
                   </motion.button>
                 </div>
 
@@ -520,8 +514,7 @@ export default function ContactSection() {
                     >
                       <CheckCircle2 className="h-4 w-4 text-[#10B981] shrink-0" />
                       <span>
-                        Your message has been dispatched! Expect a personal reply
-                        soon.
+                        Your email app should open with the brief ready to send.
                       </span>
                     </motion.div>
                   )}
