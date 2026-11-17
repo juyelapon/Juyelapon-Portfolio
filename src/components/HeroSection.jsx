@@ -1,12 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
-  ArrowUpRight,
   Mail,
   CheckCircle2,
   Cpu,
   Code2,
-  Layers,
   Terminal,
   Zap,
 } from 'lucide-react';
@@ -63,6 +61,24 @@ const trustMetrics = [
 ];
 
 export default function HeroSection() {
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        const contactSection = document.getElementById('contact');
+        const nameInput = document.getElementById('contact-name');
+        if (contactSection) {
+          contactSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        if (nameInput) {
+          setTimeout(() => nameInput.focus({ preventScroll: true }), 450);
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   return (
     <section className="relative min-h-[calc(100vh-5rem)] flex flex-col justify-between overflow-hidden pt-10 sm:pt-16 lg:pt-20 pb-16 sm:pb-24">
       {/* Ambient Obsidian Background Lighting & Linear-style Grid */}
@@ -216,7 +232,7 @@ export default function HeroSection() {
           className="mt-14 sm:mt-20 pt-8 border-t border-zinc-800/70"
         >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
-            {trustMetrics.map((item, idx) => {
+            {trustMetrics.map((item) => {
               const IconComponent = item.icon;
               return (
                 <motion.div

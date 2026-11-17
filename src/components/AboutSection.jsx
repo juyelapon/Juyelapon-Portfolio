@@ -3,14 +3,12 @@ import { motion } from 'framer-motion';
 import {
   MapPin,
   GraduationCap,
-  Code2,
   Compass,
   Award,
   Terminal,
   Sparkles,
   CheckCircle2,
   ArrowUpRight,
-  Zap,
 } from 'lucide-react';
 
 const highlightCards = [
@@ -40,7 +38,7 @@ const milestones = [
     role: 'Frontend Developer (React & Next.js Focus)',
     org: 'Independent & Portfolio Engineering',
     summary:
-      'Architecting full-featured e-commerce storefronts (VÉLOIR, FASCO), SaaS dashboards, and interactive web apps using Next.js App Router, TypeScript, and Tailwind CSS.',
+      'Architecting full-featured e-commerce storefronts (TechNova, VÉLOIR, Aura), AI landing pages, and SaaS dashboards (NexusHR, Pulse) using React, Next.js, TypeScript, and Tailwind CSS.',
   },
   {
     period: 'TRAINING MILESTONE',

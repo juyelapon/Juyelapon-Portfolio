@@ -20,6 +20,10 @@
   code, pre, .font-mono {
     font-family: 'JetBrains Mono', monospace;
   }
+
+  section[id] {
+    scroll-margin-top: 5.5rem;
+  }
 }
 
 /* Custom subtle grid & beam patterns */

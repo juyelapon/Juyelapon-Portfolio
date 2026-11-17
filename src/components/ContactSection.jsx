@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Mail,
@@ -13,6 +13,7 @@ import {
   Globe,
   Sparkles,
   Clock,
+  X,
 } from 'lucide-react';
 
 const projectTypes = [
@@ -58,11 +59,33 @@ export default function ContactSection() {
 
   const directEmail = 'juyelapon.dev@gmail.com';
 
-  const handleCopyEmail = () => {
-    if (navigator?.clipboard) {
-      navigator.clipboard.writeText(directEmail);
+  useEffect(() => {
+    if (!toastSuccess) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setToastSuccess(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [toastSuccess]);
+
+  const handleCopyEmail = async () => {
+    try {
+      if (navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(directEmail);
+      } else {
+        const tempInput = document.createElement('input');
+        tempInput.value = directEmail;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+      }
       setCopiedEmail(true);
       setTimeout(() => setCopiedEmail(false), 2500);
+    } catch {
+      // Clipboard access denied
     }
   };
 
@@ -151,9 +174,10 @@ export default function ContactSection() {
               <button
                 type="button"
                 onClick={() => setToastSuccess(false)}
-                className="font-mono text-xs text-zinc-400 hover:text-white px-1.5 py-0.5 rounded-md"
+                aria-label="Dismiss notification"
+                className="text-zinc-400 hover:text-white p-1 rounded-md transition-colors"
               >
-                ESC
+                <X className="h-4 w-4" />
               </button>
             </div>
           </motion.div>

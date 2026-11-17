@@ -47,7 +47,7 @@ const servicesData = [
     badge: '60FPS MOTION',
     accent: 'from-violet-500/20 via-indigo-500/5 to-transparent',
     deliverables: [
-      'choreographed Framer Motion scroll & layout animations',
+      'Choreographed Framer Motion scroll & layout animations',
       'Core Web Vitals (LCP, CLS, INP) performance tuning',
       'WCAG keyboard navigation & tactile hover states',
     ],
